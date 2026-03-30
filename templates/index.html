@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gaming Universe — Home</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<!-- ================= CUSTOM ALERT ================= -->
+<div id="customAlert" class="alert-overlay">
+  <div class="alert-box">
+    <h3 id="alertTitle"></h3>
+    <p id="alertMessage"></p>
+    <button onclick="closeAlert()">OK</button>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+  <div class="container">
+
+    <a href="{{ url_for('home') }}" class="logo">
+      <img src="{{ url_for('static', filename='images/website-logo.png') }}" alt="">
+    </a>
+
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}" class="active">Home</a>
+      <a href="{{ url_for('latest_games') }}">Latest</a>
+      <a href="{{ url_for('top_games') }}">Top Played</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+
+      <!-- 🔐 PROTECTED PLAY BUTTON -->
+      <a href="javascript:void(0)" onclick="checkPlayAccess()">Play</a>
+    </nav>
+
+    <button class="login-btn" id="loginBtn" onclick="openLogin()">Login</button>
+    <button class="login-btn" id="logoutBtn" onclick="logout()" style="display:none;">
+      Logout
+    </button>
+
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <h1 class="style-h1">Your hub for competitive & trending games</h1>
+      <p class="style-p">
+        Discover in-depth profiles of the most influential multiplayer and eSports titles,
+        plus the most exciting releases of this year.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TIME CARD ================= -->
+<div class="show-present-time glass-card">
+  <h3 id="greetMessage" class="style-h3"></h3>
+  <p id="currentTime" class="style-p"></p>
+</div>
+
+<!-- LATEST HIGHLIGHTS -->
+  <section class="section container">
+    <h2 class="style-h2">Latest Releases & Updates (Highlights)</h2>
+
+    <div class="games-grid latest-sec-home">
+      <a class="card" href="{{ url_for('latest_games') }}#doom">
+        <img src="/static/images/doom-img.jpeg" alt="DOOM The Dark Ages">
+        <div class="card-body">
+          <h3>DOOM: The Dark Ages</h3>
+          <div class="meta">Release: 2025 • Platforms: PC, PS5, Xbox</div>
+          <p>Id Software takes DOOM into a bold medieval setting — still fast, violent, and technically impressive with next-gen features and sound design.</p>
+        </div>
+      </a>
+
+      <a class="card" href="{{ url_for('latest_games') }}#monster">
+        <img src="/static/images/monster-hunter.jpeg" alt="Monster Hunter Wilds">
+        <div class="card-body">
+          <h3>Monster Hunter Wilds</h3>
+          <div class="meta">Release: 2025 • Platforms: PC, PS5, Xbox</div>
+          <p>A fresh evolution of the Monster Hunter formula with wider open zones, dynamic ecosystems and long-term progression for competitive hunting groups.</p>
+        </div>
+      </a>
+
+      <a class="card" href="{{ url_for('latest_games') }}#civilization7">
+        <img src="/static/images/civilization.jpeg" alt="Civilization 7">
+        <div class="card-body">
+          <h3>Civilization 7</h3>
+          <div class="meta">Release: 2025 • Platforms: PC</div>
+          <p>Turn-based strategy returns with larger-scale systems, diplomacy depth, and mod-friendly tools — ideal for long-term competitive and community play.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="cta">
+      <a href="{{ url_for('latest_games') }}" class="cta-btn">See all latest releases</a>
+    </div>
+  </section>
+
+  <!-- TOP PLAYED PICKS (brief) -->
+  <section class="section container latest-sec-home">
+    <h2 class="style-h2">Top Played & eSports Heavy Hitters (Recent)</h2>
+
+    <div class="games-grid">
+      <a class="card" href="{{ url_for('top_games') }}#cs2">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="Counter-Strike 2">
+        <div class="card-body">
+          <h3>Counter-Strike 2</h3>
+          <div class="meta">Peak players & massive competitive scene</div>
+          <p>CS2 continues to lead PC competitive shooter activity, with sustained monthly peak players and an active esports circuit.</p>
+        </div>
+      </a>
+
+      <a class="card" href="{{ url_for('top_games') }}#valorant">
+        <img src="/static/images/valorant.jpeg" alt="Valorant">
+        <div class="card-body">
+          <h3>Valorant</h3>
+          <div class="meta">Competitive 5v5 tactical shooter</div>
+          <p>Riot's tactical shooter is a pillar of modern eSports with strong viewership and regular seasonal events.</p>
+        </div>
+      </a>
+
+      <a class="card" href="{{ url_for('top_games') }}#league">
+        <img src="/static/images/league-legends.jpeg" alt="League of Legends">
+        <div class="card-body">
+          <h3>League of Legends</h3>
+          <div class="meta">MOBA • Massive global tournaments</div>
+          <p>LoL remains a top eSports property thanks to region leagues, World Championship, and huge community engagement.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="cta">
+      <a href="{{ url_for('top_games') }}" class="cta-btn">Explore top played titles</a>
+    </div>
+  </section>
+
+  <!-- ABOUT PREVIEW -->
+  <section class="section container">
+    <h2 class="style-h2">Why eSports & Multiplayer Matter</h2>
+    <div class="detail-block">
+      <div class="detail-img">
+        <img src="/static/images/esports-img.jpg" alt="eSports">
+      </div>
+      <div class="detail-text">
+        <h3 class="style-h3">Competitive depth and global communities</h3>
+        <p class="style-p">
+          Multiplayer and competitive games create ecosystems — pro teams, content creators, fans, and event economies.
+          Titles like Counter-Strike 2, Valorant, and League of Legends drive sustained viewer and player numbers while
+          continually evolving through updates, patches and new seasonal content.
+        </p>
+        <p class="style-p">
+          This site curates gameplay analysis, platform coverage (PC/Console), and the competitive calendar — so you can
+          follow the games that matter now.
+        </p>
+      </div>
+    </div>
+  </section>
+
+<footer class="footer">
+  <div class="container">
+    © 2025 Gaming Universe — curated game profiles & eSports insights
+  </div>
+</footer>
+
+<!-- ================= SIGNUP POPUP ================= -->
+<div class="auth-overlay" id="signupPopup" style="display:none;">
+  <span class="cross" onclick="closePopup()">✕</span>
+  <div class="auth-box">
+    <h2>Create Account</h2>
+    <input type="text" id="firstName" placeholder="First Name">
+    <input type="text" id="lastName" placeholder="Last Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button type="button" onclick="signup()">Sign Up</button>
+    <p onclick="switchToLogin()">Already have an account? Login</p>
+  </div>
+</div>
+
+<!-- ================= LOGIN POPUP ================= -->
+<div class="auth-overlay" id="loginPopup" style="display:none;">
+  <span class="cross" onclick="closePopup()">✕</span>
+  <div class="auth-box">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button type="button" onclick="login()">Login</button>
+    <p onclick="switchToSignup()">New User? Create Account</p>
+  </div>
+</div>
+
+<!-- ================= JS ================= -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

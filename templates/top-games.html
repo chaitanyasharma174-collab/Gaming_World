@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Top Played & eSports — Gaming Universe</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<!-- ================= CUSTOM ALERT ================= -->
+<div id="customAlert" class="alert-overlay">
+  <div class="alert-box">
+    <h3 id="alertTitle"></h3>
+    <p id="alertMessage"></p>
+    <button onclick="closeAlert()">OK</button>
+  </div>
+</div>
+
+<header class="header">
+  <div class="container">
+
+    <a href="{{ url_for('home') }}" class="logo">
+      <img src="{{ url_for('static', filename='images/website-logo.png') }}" alt="">
+    </a>
+
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('latest_games') }}">Latest</a>
+      <a href="{{ url_for('top_games') }}" class="active">Top Played</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <!-- 🔐 PROTECTED PLAY BUTTON -->
+      <a href="javascript:void(0)" onclick="checkPlayAccess()">Play</a>
+    </nav>
+
+    <button class="login-btn" id="loginBtn" onclick="openLogin()">Login</button>
+    <button class="login-btn" id="logoutBtn" onclick="logout()" style="display:none;">
+      Logout
+    </button>
+
+  </div>
+</header>
+
+
+  <main class="container section">
+    <h1 class="style-h1">Top Played Games & eSports Analysis (Recent)</h1>
+    <div class="article-wrpr top-gamer-wrpr">
+        <!-- COUNTER-STRIKE 2 -->
+        <article id="cs2" class="card latest-card" style="margin-bottom:18px;">
+        <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="Counter-Strike 2">
+        <div class="card-body">
+            <h3>Counter-Strike 2 — Core FPS competitive engine</h3>
+            <div class="meta">Genre: Tactical FPS • Primary Platform: PC</div>
+            <p class="style-p">
+            Counter-Strike 2 (CS2) continues to dominate competitive shooter players and maintains massive
+            monthly player counts on Steam. The game's precise mechanics, map control focus, and deep tactical
+            skill ceiling drive consistent tournament ecosystems worldwide. Major organizations and LAN circuits
+            keep CS2 at the heart of shooter esports.
+            </p>
+            <p class="style-p">
+            Community & streaming: CS2 registers high concurrent players and strong engagement on platforms like
+            Twitch — sustained interest from both casual matches and pro-level competition. (See statistics from
+            Steam charts and player-tracking sources.)
+            </p>
+        </div>
+        </article>
+
+        <!-- VALORANT -->
+        <article id="valorant" class="card latest-card" style="margin-bottom:18px;">
+        <img src="/static/images/valorant.jpeg" alt="Valorant">
+        <div class="card-body">
+            <h3>Valorant — Riot's tactical shooter & esport</h3>
+            <div class="meta">Genre: Tactical Hero Shooter • Primary Platform: PC</div>
+            <p class="style-p">
+            Valorant blends agent-based abilities with gunplay, producing a distinct competitive meta. Riot's structured
+            pro-circuit and global events (Champions, VCT stages) give it a stable place in modern esports,
+            generating high viewership and heavy community activity year-round.
+            </p>
+            <p class="style-p">
+            The title's regular content seasons, balancing, and skin economies keep players and spectators engaged,
+            making Valorant a top eSports title in terms of event viewership and organized competition.
+            </p>
+        </div>
+        </article>
+
+        <!-- LEAGUE OF LEGENDS -->
+        <article id="league" class="card latest-card" style="margin-bottom:18px;">
+        <img src="/static/images/league-legends.jpeg" alt="League of Legends">
+        <div class="card-body">
+            <h3>League of Legends — MOBA benchmark</h3>
+            <div class="meta">Genre: MOBA • Platforms: PC</div>
+            <p class="style-p">
+            League of Legends remains foundational for global esports: deep strategy, regionally segmented pro
+            leagues (LCK, LPL, LCS, LEC), and the annual World Championship drive immense viewership and prize pools.
+            LoL's ecosystem supports long-term professional pathways and massive viewer engagement.
+            </p>
+            <p class="style-p">
+            Its combination of grassroots community events and large-scale franchised leagues keeps LoL among the most
+            consistently watched and played competitive games.
+            </p>
+        </div>
+        </article>
+    </div>
+    <div class="cta">
+      <a href="{{ url_for('home') }}" class="cta-btn">Back to Home</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">Data summary assembled from esports trackers, Steam charts and industry reports.</div>
+  </footer>
+
+  <div class="auth-overlay" id="signupPopup" style="display:none;">
+    <span class="cross" onclick="closePopup()">✕</span>
+    <div class="auth-box">
+      <h2>Create Account</h2>
+      <input type="text" id="firstName" placeholder="First Name">
+      <input type="text" id="lastName" placeholder="Last Name">
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button type="button" onclick="signup()">Sign Up</button>
+      <p onclick="switchToLogin()">Already have an account? Login</p>
+    </div>
+  </div>
+
+  <!-- ================= LOGIN POPUP ================= -->
+  <div class="auth-overlay" id="loginPopup" style="display:none;">
+    <span class="cross" onclick="closePopup()">✕</span>
+    <div class="auth-box">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button type="button" onclick="login()">Login</button>
+      <p onclick="switchToSignup()">New User? Create Account</p>
+    </div>
+  </div>
+   
+</body>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</html>

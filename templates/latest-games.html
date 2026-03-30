@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Latest Releases — Gaming Universe</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<!-- ================= CUSTOM ALERT ================= -->
+<div id="customAlert" class="alert-overlay">
+  <div class="alert-box">
+    <h3 id="alertTitle"></h3>
+    <p id="alertMessage"></p>
+    <button onclick="closeAlert()">OK</button>
+  </div>
+</div>
+
+ <header class="header">
+  <div class="container">
+
+    <a href="{{ url_for('home') }}" class="logo">
+      <img src="{{ url_for('static', filename='images/website-logo.png') }}" alt="">
+    </a>
+
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('latest_games') }}" class="active">Latest</a>
+      <a href="{{ url_for('top_games') }}">Top Played</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+     <!-- 🔐 PROTECTED PLAY BUTTON -->
+      <a href="javascript:void(0)" onclick="checkPlayAccess()">Play</a>
+    </nav>
+
+    <button class="login-btn" id="loginBtn" onclick="openLogin()">Login</button>
+    <button class="login-btn" id="logoutBtn" onclick="logout()" style="display:none;">
+      Logout
+    </button>
+
+  </div>
+</header>
+
+
+  <main class="container section">
+    <h1 class="style-h1">Latest Releases & Notable 2024–2025 Titles</h1>
+    <div class="article-wrpr">
+        <!-- DOOM THE DARK AGES -->
+        <article id="doom" class="card latest-card" style="margin-bottom:18px;">
+        <img src="/static/images/doom-img.jpeg" alt="DOOM The Dark Ages">
+        <div class="card-body">
+            <h3>DOOM: The Dark Ages — What to expect</h3>
+            <div class="meta">Developer: id Software • Platforms: PC, PS5, Xbox • Release: 2025</div>
+            <p class="style-p">
+            DOOM returns with a medieval-inspired prequel setting that preserves the franchise’s frantic combat and
+            visceral feedback. Expect rapid movement mechanics, heavy weapon variety, and atmospheric level design
+            married to modern visual fidelity. The new setting introduces slower-paced heavy melee encounters
+            alongside classic ranged mayhem — bridging old-school fans and modern players.
+            </p>
+            <p class="style-p">
+            Competitive & community notes: the DOOM brand generates modding communities and speedrunning interest;
+            while not a traditional eSport, its release fuels streaming and high-engagement content on launch windows.
+            </p>
+        </div>
+        </article>
+
+        <!-- MONSTER HUNTER WILDS -->
+        <article id="monster" class="card latest-card" style="margin-bottom:18px;">
+        <img src="/static/images/monster-hunter.jpeg" alt="Monster Hunter Wilds">
+        <div class="card-body">
+            <h3>Monster Hunter Wilds — Expanded ecosystems</h3>
+            <div class="meta">Developer: Capcom • Platforms: PC, PS5, Xbox • Release: 2025</div>
+            <p class="style-p">
+            Wilds rethinks traditional hunt loops with dynamic ecosystems and expanded open zones for cooperative hunts.
+            Focused on endgame progression and community event hunts, Wilds is designed with group strategies and clan
+            coordination in mind — creating shared long-term play patterns ideal for streaming and community tournaments.
+            </p>
+            <p class="style-p">
+            Expect robust weapon tuning, cross-play support, and seasonal content combining PvE and limited PvP trial modes.
+            </p>
+        </div>
+        </article>
+
+        <!-- CIVILIZATION 7 -->
+        <article id="civilization7" class="card latest-card" style="margin-bottom:18px;">
+        <img src="/static/images/civilization.jpeg" alt="Civilization 7">
+        <div class="card-body">
+            <h3>Civilization 7 — Strategy returns</h3>
+            <div class="meta">Developer: Firaxis • Platforms: PC • Release: 2025</div>
+            <p class="style-p">
+            Civilization 7 expands diplomacy, commerce and city-network mechanics with new AI diplomacy and asynchronous
+            multiplayer. This iteration places more emphasis on long-term strategic pacing and mod support, making it
+            a serious contender for competitive turn-based tournaments and community-driven competitive leagues.
+            </p>
+            <p class="style-p">
+            Notes: Civilization remains a core title for strategy communities; expect large player-run tournaments and
+            tournament-style seasons on streaming platforms.
+            </p>
+        </div>
+        </article>
+    </div>
+
+    <div class="cta">
+      <a href="{{ url_for('home') }}" class="cta-btn">Back to Home</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">Sources: official developer announcements & gaming press coverage</div>
+  </footer>
+   
+  <!-- ================= SIGNUP POPUP ================= -->
+<div class="auth-overlay" id="signupPopup" style="display:none;">
+  <span class="cross" onclick="closePopup()">✕</span>
+  <div class="auth-box">
+    <h2>Create Account</h2>
+    <input type="text" id="firstName" placeholder="First Name">
+    <input type="text" id="lastName" placeholder="Last Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button type="button" onclick="signup()">Sign Up</button>
+    <p onclick="switchToLogin()">Already have an account? Login</p>
+  </div>
+</div>
+
+<!-- ================= LOGIN POPUP ================= -->
+<div class="auth-overlay" id="loginPopup" style="display:none;">
+  <span class="cross" onclick="closePopup()">✕</span>
+  <div class="auth-box">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button type="button" onclick="login()">Login</button>
+    <p onclick="switchToSignup()">New User? Create Account</p>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</html>

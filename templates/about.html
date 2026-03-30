@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About — Gaming Universe</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<!-- ================= CUSTOM ALERT ================= -->
+<div id="customAlert" class="alert-overlay">
+  <div class="alert-box">
+    <h3 id="alertTitle"></h3>
+    <p id="alertMessage"></p>
+    <button onclick="closeAlert()">OK</button>
+  </div>
+</div>
+
+  <header class="header">
+  <div class="container">
+
+    <a href="{{ url_for('home') }}" class="logo">
+      <img src="{{ url_for('static', filename='images/website-logo.png') }}" alt="">
+    </a>
+
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('latest_games') }}">Latest</a>
+      <a href="{{ url_for('top_games') }}">Top Played</a>
+      <a href="{{ url_for('about') }}" class="active">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+
+      <!-- 🔐 PROTECTED PLAY BUTTON -->
+      <a href="javascript:void(0)" onclick="checkPlayAccess()">Play</a>
+    </nav>
+
+    <button class="login-btn" id="loginBtn" onclick="openLogin()">Login</button>
+    <button class="login-btn" id="logoutBtn" onclick="logout()" style="display:none;">
+      Logout
+    </button>
+
+  </div>
+</header>
+
+
+  <main class="container section">
+    <h1 class="style-h1">About Gaming Universe</h1>
+
+    <div class="detail-block" style="margin-top:16px;">
+      <div class="detail-img">
+        <img src="/static/images/gaming-universe.jpeg" alt="Gaming industry">
+      </div>
+      <div class="detail-text">
+        <h3 class="style-h3">Who we are</h3>
+        <p class="style-p">
+          Gaming Universe is an educational and curatorial site focused on multiplayer and competitive gaming.
+          Our goal is to provide clear, well-researched writeups about the mechanics, community, and competitive
+          footprint of major titles — helping players, students and content creators quickly understand what
+          matters about each game.
+        </p>
+
+        <h3 class="style-h3">Research & editorial methodology</h3>
+        <p class="style-p">
+          We aggregate developer announcements, industry reporting, player statistics (Steam charts, MAU lists),
+          and esports trackers to build an informed summary for each title. For competitive analysis we look at:
+          average monthly players, viewership numbers, tournament structure, and community ecosystem.
+        </p>
+
+        <h3 class="style-h3">Use for your project</h3>
+        <p class="style-p">
+          Feel free to reuse content for educational projects. Cite sources where necessary; if you want
+          a custom export (PDF or slide) for your college submission, I can prepare print-friendly pages.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© 2025 Gaming Universe</div>
+  </footer>
+  <!-- ================= SIGNUP POPUP ================= -->
+  <div class="auth-overlay" id="signupPopup" style="display:none;">
+    <span class="cross" onclick="closePopup()">✕</span>
+    <div class="auth-box">
+      <h2>Create Account</h2>
+      <input type="text" id="firstName" placeholder="First Name">
+      <input type="text" id="lastName" placeholder="Last Name">
+      <input type="email" id="email" placeholder="Email">
+      <input type="password" id="password" placeholder="Password">
+      <button type="button" onclick="signup()">Sign Up</button>
+      <p onclick="switchToLogin()">Already have an account? Login</p>
+    </div>
+  </div>
+
+  <!-- ================= LOGIN POPUP ================= -->
+  <div class="auth-overlay" id="loginPopup" style="display:none;">
+    <span class="cross" onclick="closePopup()">✕</span>
+    <div class="auth-box">
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email">
+      <input type="password" id="loginPassword" placeholder="Password">
+      <button type="button" onclick="login()">Login</button>
+      <p onclick="switchToSignup()">New User? Create Account</p>
+    </div>
+  </div>
+   
+</body>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</html>

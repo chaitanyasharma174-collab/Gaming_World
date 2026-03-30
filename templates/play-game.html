@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Space Shooter — Gaming Universe</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+<style>
+canvas {
+  background: #03080f;
+  display: block;
+  margin: 25px auto;
+  border: 2px solid #00faff;
+  box-shadow: 0 0 20px #00faff;
+  border-radius: 10px;
+}
+
+.game-info {
+  text-align: center;
+  color: #00ffee;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+/* Popup Overlay */
+#popupOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Popup Box */
+#popupBox {
+  background: #041e29;
+  padding: 25px;
+  border: 2px solid #00fff2;
+  border-radius: 12px;
+  text-align: center;
+  width: 330px;
+  box-shadow: 0 0 18px #00fff2;
+}
+
+#popupBox h2 {
+  color: #00fff2;
+  margin-bottom: 10px;
+  font-size: 1.6rem;
+}
+
+#popupBox p {
+  color: #baffff;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+#popupBox .btn {
+  background: #00fff2;
+  color: #001212;
+  font-weight: bold;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  margin: 6px;
+  cursor: pointer;
+}
+
+.btn-home {
+  background: #ff3b3b;
+  color: #fff;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= CUSTOM ALERT ================= -->
+<div id="customAlert" class="alert-overlay">
+  <div class="alert-box">
+    <h3 id="alertTitle"></h3>
+    <p id="alertMessage"></p>
+    <button onclick="closeAlert()">OK</button>
+  </div>
+</div>
+
+<!-- ================= HEADER ================= -->
+<header class="header">
+  <div class="container">
+
+    <a href="{{ url_for('home') }}" class="logo">
+      <img src="{{ url_for('static', filename='images/website-logo.png') }}" alt="">
+    </a>
+
+    <nav class="navbar">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('latest_games') }}">Latest</a>
+      <a href="{{ url_for('top_games') }}">Top Played</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('play_game') }}" class="active">Play</a>
+    </nav>
+
+  </div>
+</header>
+
+<!-- ================= MAIN ================= -->
+<main class="container section">
+
+<h1 class="style-h1">Neon Space Shooter 🚀</h1>
+<p class="style-p" style="text-align:center;">Move: ⬅️➡️ | Shoot: SPACE</p>
+
+<canvas id="gameCanvas" width="800" height="500"></canvas>
+<div class="game-info">Score: <span id="score">0</span></div>
+
+<!-- Game Over Popup -->
+<div id="popupOverlay">
+  <div id="popupBox">
+    <h2>💥 GAME OVER</h2>
+    <p id="finalScorePopup"></p>
+    <button class="btn" onclick="location.reload()">Restart</button>
+    <button class="btn btn-home" onclick="window.location.href='{{ url_for('home') }}'">Home</button>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="container">© 2025 Gaming Universe</div>
+</footer>
+
+<!-- ================= LOGIN SAFETY CHECK ================= -->
+<script>
+fetch("/check-login")
+  .then(res => res.json())
+  .then(data => {
+    if (!data.logged_in) {
+      alert("Please login to play the game!");
+      window.location.href = "/";
+    }
+  });
+</script>
+
+<!-- ================= GAME SCRIPT ================= -->
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+const scoreDisplay = document.getElementById("score");
+const finalScorePopup = document.getElementById("finalScorePopup");
+const popupOverlay = document.getElementById("popupOverlay");
+
+let player = { x: 380, y: 430, w: 40, h: 40 };
+let bullets = [];
+let enemies = [];
+let score = 0;
+let gameOver = false;
+
+/* Player Controls */
+document.addEventListener("keydown", (e) => {
+  if (e.code === "ArrowLeft" && player.x > 10) player.x -= 20;
+  if (e.code === "ArrowRight" && player.x < 750) player.x += 20;
+  if (e.code === "Space") bullets.push({ x: player.x + 17, y: player.y });
+});
+
+/* Enemy Spawn */
+setInterval(() => {
+  if (!gameOver) enemies.push({ x: Math.random() * 760, y: -40 });
+}, 700);
+
+/* Game Loop */
+function update() {
+  if (gameOver) return;
+
+  ctx.clearRect(0, 0, 800, 500);
+
+  // Player
+  ctx.fillStyle = "#00ffea";
+  ctx.fillRect(player.x, player.y, player.w, player.h);
+
+  // Bullets
+  ctx.fillStyle = "#ff1178";
+  bullets.forEach((b, i) => {
+    b.y -= 10;
+    ctx.fillRect(b.x, b.y, 6, 10);
+    if (b.y < 0) bullets.splice(i, 1);
+  });
+
+  // Enemies
+  ctx.fillStyle = "#ff3b3b";
+  enemies.forEach((en, j) => {
+    en.y += 3;
+    ctx.fillRect(en.x, en.y, 40, 40);
+
+    // Collision
+    if (
+      en.x < player.x + 40 &&
+      en.x + 40 > player.x &&
+      en.y < player.y + 40 &&
+      en.y + 40 > player.y
+    ) {
+      endGame();
+    }
+
+    bullets.forEach((b, i) => {
+      if (b.x < en.x + 40 && b.x + 6 > en.x && b.y < en.y + 40) {
+        enemies.splice(j, 1);
+        bullets.splice(i, 1);
+        score++;
+        scoreDisplay.textContent = score;
+      }
+    });
+
+    if (en.y > 500) enemies.splice(j, 1);
+  });
+
+  requestAnimationFrame(update);
+}
+update();
+
+/* Game Over */
+function endGame() {
+  gameOver = true;
+  finalScorePopup.textContent = "Your Score: " + score;
+  popupOverlay.style.display = "flex";
+}
+</script>
+
+<!-- Global JS -->
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
